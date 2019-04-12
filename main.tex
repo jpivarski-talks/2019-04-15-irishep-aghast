@@ -279,6 +279,37 @@ Histogram(
 \vspace{0.5 cm}
 \small
 \begin{minted}{python}
+>>> (aghast.from_numpy(h_numpy) + aghast.from_root(h_root)).dump()
+\end{minted}
+
+\scriptsize
+\begin{verbatim}
+Histogram(
+  axis=[
+    Axis(
+      binning=
+        RegularBinning(
+          num=20,
+          interval=RealInterval(low=-5.0, high=5.0),
+          overflow=RealOverflow(loc_underflow=BinLocation.above1,
+                                loc_overflow=BinLocation.above2)))
+  ],
+  counts=
+    UnweightedCounts(
+      counts=
+        InterpretedInlineFloat64Buffer(
+          buffer=
+              [0.0000e+00 5.0000e+00 3.6000e+01 2.1700e+02 9.6800e+02 3.2320e+03
+               8.7780e+03 1.8562e+04 2.9957e+04 3.8380e+04 3.8551e+04 2.9654e+04
+               1.8311e+04 8.7890e+03 3.2790e+03 1.0010e+03 2.4000e+02 3.4000e+01
+               6.0000e+00 0.0000e+00 0.0000e+00 0.0000e+00])))
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{What does it look like?}
+\vspace{0.5 cm}
+\small
+\begin{minted}{python}
 >>> aghast.to_pandas(aghast.from_root(h_root))
 \end{minted}
 
