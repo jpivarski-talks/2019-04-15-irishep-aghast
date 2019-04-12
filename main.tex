@@ -168,7 +168,147 @@ The {\bf aghast} library ({\bf ag}gregated, {\bf h}istogram-like {\bf st}atistic
 \end{description}
 \end{frame}
 
+\begin{frame}[fragile]{What does it look like?}
+\small
+\begin{minted}{python}
+>>> import numpy, aghast
+>>> h_numpy = numpy.histogram(numpy.random.normal(0, 1, 100000),
+...                           bins=20, range=(-5, 5))
+>>> aghast.from_numpy(h_numpy).dump()
+\end{minted}
 
+\scriptsize
+\begin{verbatim}
+Histogram(
+  axis=[
+    Axis(binning=RegularBinning(num=20, interval=RealInterval(low=-5.0, high=5.0)))
+  ],
+  counts=
+    UnweightedCounts(
+      counts=
+        InterpretedInlineInt64Buffer(
+          buffer=
+              [    2     5    21   107   477  1696  4378  9146 15084 19273 18933 14960
+                9216  4425  1648   480   122    23     4     0])))
+\end{verbatim}
+
+\vspace{0.25 cm}
+\uncover<2->{\textcolor{darkblue}{\large Very formal class hierarchy, long names $\to$ not for end-users!}}
+\end{frame}
+
+\begin{frame}[fragile]{What does it look like?}
+\small
+\begin{minted}{python}
+>>> import ROOT, aghast
+>>> h_root = ROOT.TH1F("name", "title", 20, -5, 5)
+>>> h_root.FillRandom("gaus", 100000)
+>>> aghast.from_root(h_root).dump()
+\end{minted}
+
+\uncover<2->{(The ROOT histogram has {\tt moments} to preserve unbinned mean and standard deviation.)}
+
+\tiny
+\begin{verbatim}
+Histogram(
+  axis=[
+    Axis(
+      binning=
+        RegularBinning(
+          num=20,
+          interval=RealInterval(low=-5.0, high=5.0),
+          overflow=RealOverflow(loc_underflow=BinLocation.below1, loc_overflow=BinLocation.above1)),
+      statistics=[
+        Statistics(
+          moments=[
+            Moments(sumwxn=InterpretedInlineInt64Buffer(buffer=[100000]), n=0),
+            Moments(sumwxn=InterpretedInlineFloat64Buffer(buffer=[100000]), n=0, weightpower=1),
+            Moments(sumwxn=InterpretedInlineFloat64Buffer(buffer=[100000]), n=0, weightpower=2),
+            Moments(sumwxn=InterpretedInlineFloat64Buffer(buffer=[-102.751]), n=1, weightpower=1),
+            Moments(sumwxn=InterpretedInlineFloat64Buffer(buffer=[104061]), n=2, weightpower=1)
+          ])
+      ])
+  ],
+  counts=
+    UnweightedCounts(
+      counts=
+        InterpretedInlineBuffer(
+          buffer=
+              [0.0000e+00 0.0000e+00 4.0000e+00 1.8000e+01 1.0000e+02 4.7900e+02
+               1.6950e+03 4.3380e+03 9.2950e+03 1.4974e+04 1.9195e+04 1.9289e+04
+               1.4781e+04 9.1450e+03 4.3850e+03 1.6680e+03 4.9200e+02 1.1600e+02
+               2.3000e+01 3.0000e+00 0.0000e+00 0.0000e+00],
+          dtype=Interpretation.float32)),
+  title='title')
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[fragile]{What does it look like?}
+\small
+\begin{minted}{python}
+>>> aghast.to_numpy(aghast.from_root(h_root))
+\end{minted}
+
+\scriptsize
+\begin{verbatim}
+(array([0.0000e+00, 0.0000e+00, 4.0000e+00, 1.8000e+01, 1.0000e+02,
+       4.7900e+02, 1.6950e+03, 4.3380e+03, 9.2950e+03, 1.4974e+04,
+       1.9195e+04, 1.9289e+04, 1.4781e+04, 9.1450e+03, 4.3850e+03,
+       1.6680e+03, 4.9200e+02, 1.1600e+02, 2.3000e+01, 3.0000e+00,
+       0.0000e+00, 0.0000e+00], dtype=float32),
+ array([-inf, -5. , -4.5, -4. , -3.5, -3. , -2.5, -2. , -1.5, -1. , -0.5,
+        0. ,  0.5,  1. ,  1.5,  2. ,  2.5,  3. ,  3.5,  4. ,  4.5,  5. ,
+        inf]))
+\end{verbatim}
+
+\uncover<2->{\large Even though Numpy doesn't have a concept of regularly spaced bins or overflow bins, we can shoehorn the ROOT histogram into this form.}
+\end{frame}
+
+\begin{frame}[fragile]{What does it look like?}
+\vspace{0.5 cm}
+\small
+\begin{minted}{python}
+>>> aghast.to_root(aghast.from_numpy(h_numpy), "name").Draw()
+\end{minted}
+
+\begin{center}
+\includegraphics[width=0.65\linewidth]{c1.png}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{What does it look like?}
+\vspace{0.5 cm}
+\small
+\begin{minted}{python}
+>>> aghast.to_pandas(aghast.from_root(h_root))
+\end{minted}
+
+\tiny
+\begin{verbatim}
+              unweighted
+[-inf, -5.0)         0.0
+[-5.0, -4.5)         0.0
+[-4.5, -4.0)         4.0
+[-4.0, -3.5)        18.0
+[-3.5, -3.0)       100.0
+[-3.0, -2.5)       479.0
+[-2.5, -2.0)      1695.0
+[-2.0, -1.5)      4338.0
+[-1.5, -1.0)      9295.0
+[-1.0, -0.5)     14974.0
+[-0.5, 0.0)      19195.0
+[0.0, 0.5)       19289.0
+[0.5, 1.0)       14781.0
+[1.0, 1.5)        9145.0
+[1.5, 2.0)        4385.0
+[2.0, 2.5)        1668.0
+[2.5, 3.0)         492.0
+[3.0, 3.5)         116.0
+[3.5, 4.0)          23.0
+[4.0, 4.5)           3.0
+[4.5, 5.0)           0.0
+[5.0, inf)           0.0
+\end{verbatim}
+\end{frame}
 
 
 
