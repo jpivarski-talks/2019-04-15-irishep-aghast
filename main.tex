@@ -181,7 +181,7 @@ In IRIS-HEP Analysis Systems, we're developing a \textcolor{darkorange}{\bf Quer
 \includegraphics[width=0.6\linewidth]{basic-block-diagram.pdf}
 \end{center}
 
-The ``reduced output'' needs to be in some form that can be transmitted, added, and converted into any format. Such an object is known as ``\textcolor{darkorange}{\bf a ghast}.''
+The ``reduced output'' needs to be in some form that can be transmitted, added, and converted into any format. Such an object can be called ``\textcolor{darkorange}{\bf a ghast}.''
 \end{frame}
 
 \begin{frame}[fragile]{What does it look like?}
@@ -267,13 +267,13 @@ Histogram(
 \scriptsize
 \begin{verbatim}
 (array([0.0000e+00, 0.0000e+00, 4.0000e+00, 1.8000e+01, 1.0000e+02,
-       4.7900e+02, 1.6950e+03, 4.3380e+03, 9.2950e+03, 1.4974e+04,
-       1.9195e+04, 1.9289e+04, 1.4781e+04, 9.1450e+03, 4.3850e+03,
-       1.6680e+03, 4.9200e+02, 1.1600e+02, 2.3000e+01, 3.0000e+00,
-       0.0000e+00, 0.0000e+00], dtype=float32),
+        4.7900e+02, 1.6950e+03, 4.3380e+03, 9.2950e+03, 1.4974e+04,
+        1.9195e+04, 1.9289e+04, 1.4781e+04, 9.1450e+03, 4.3850e+03,
+        1.6680e+03, 4.9200e+02, 1.1600e+02, 2.3000e+01, 3.0000e+00,
+        0.0000e+00, 0.0000e+00], dtype=float32),
  array([-inf, -5. , -4.5, -4. , -3.5, -3. , -2.5, -2. , -1.5, -1. , -0.5,
-        0. ,  0.5,  1. ,  1.5,  2. ,  2.5,  3. ,  3.5,  4. ,  4.5,  5. ,
-        inf]))
+         0. ,  0.5,  1. ,  1.5,  2. ,  2.5,  3. ,  3.5,  4. ,  4.5,  5. ,
+         inf]))
 \end{verbatim}
 
 \uncover<2->{\large Even though Numpy doesn't have a concept of regularly spaced bins or overflow bins, we can shoehorn the ROOT histogram into this form.}
@@ -680,7 +680,7 @@ IrregularBinning(
 
 \item Allows Python histogramming libraries to specialize: a user can access all features without one library implementing all features.
 
-\item Provides a ``reduced output'' format for a \textcolor{darkorange}{\bf Query Service} without tying it to a particular histogramming library.
+\item Provides a ``reduced output'' format for a future \textcolor{darkorange}{\bf Query Service} without tying it to any particular histogramming library.
 
 \item All histograms are $n$-dimensional and sliced/projected/rebinned like Numpy.
 
@@ -688,9 +688,9 @@ IrregularBinning(
 
 \vspace{0.25 cm}
 \begin{itemize}\setlength{\itemsep}{0.25 cm}
-\item {\large Minimal wire protocol, can be selectively deserialized.}
+\item {\large Minimal wire protocol, can be selectively deserialized (like {\tt\small TDirectory}).}
 \item {\large Schema evolution: we can add classes as needed.}
-\item {\large Multilingual: supports 12 languages, but primarily C++.}
+\item {\large Multilingual: supports 12 languages (most development in C++).}
 \end{itemize}
 \end{itemize}
 \end{frame}
