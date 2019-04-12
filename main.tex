@@ -157,6 +157,18 @@ The {\bf aghast} library ({\bf ag}gregated, {\bf h}istogram-like {\bf st}atistic
 \includegraphics[width=\linewidth]{aghast-github.png}
 \end{frame}
 
+\begin{frame}{}
+\vspace{1.25 cm}
+\begin{description}\setlength{\itemsep}{0.5 cm}
+\item[in-memory:] The purpose is to move histogram-like data from one library to another, invisibly as part of a function call. It is not primarily intended for long-term storage in files. In this respect, it is like Apache Arrow.
+
+\item[serializable:] We use Flatbuffers as a wire protocol to move data over a network or among languages (12 supported), if necessary. Flatbuffers supports partial deserialization, like HDF5 or ROOT.
+
+\item[ontology:] Aghast focuses exclusively on representing the data and converting histograms into histograms. It does not fill or plot them. In this respect, it is like Predictive Model Markup Language (PMML), which neither trains nor scores machine learning models.
+\end{description}
+
+\end{frame}
+
 
 
 
