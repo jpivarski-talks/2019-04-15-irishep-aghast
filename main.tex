@@ -429,10 +429,10 @@ Histogram(
 \vspace{0.4 cm}
 \begin{onlyenv}<1>
 \begin{minted}{python}
->>> allcounts = numpy.ones((7, 7))
+>>> allcounts = numpy.ones((7, 7), int)
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
 
->>> h2 = aghast.Histogram(
+>>> h = aghast.Histogram(
 ...     [aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
 ...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.above1,
 ...                                      loc_overflow=aghast.RealOverflow.above2))),
@@ -442,14 +442,14 @@ Histogram(
 ...     aghast.UnweightedCounts(
 ...         aghast.InterpretedInlineBuffer.fromarray(allcounts)))
 
->>> h2.counts[:, :]                         # normal slice gets the non-overflow bins
+>>> h.counts[:, :]                         # normal slice gets the non-overflow bins
 \end{minted}
 \begin{verbatim}
-array([[1., 1., 1., 1., 1.],
-       [1., 1., 1., 1., 1.],
-       [1., 1., 1., 1., 1.],
-       [1., 1., 1., 1., 1.],
-       [1., 1., 1., 1., 1.]])
+array([[1, 1, 1, 1, 1],
+       [1, 1, 1, 1, 1],
+       [1, 1, 1, 1, 1],
+       [1, 1, 1, 1, 1],
+       [1, 1, 1, 1, 1]])
 
 
 \end{verbatim}
@@ -459,7 +459,7 @@ array([[1., 1., 1., 1., 1.],
 >>> allcounts = numpy.ones((7, 7))
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
 
->>> h2 = aghast.Histogram(
+>>> h = aghast.Histogram(
 ...     [aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
 ...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.above1,
 ...                                      loc_overflow=aghast.RealOverflow.above2))),
@@ -469,16 +469,16 @@ array([[1., 1., 1., 1., 1.],
 ...     aghast.UnweightedCounts(
 ...         aghast.InterpretedInlineBuffer.fromarray(allcounts)))
 
->>> h2.counts[-numpy.inf:numpy.inf, :]      # infinity at one end means under/overflow
+>>> h.counts[-numpy.inf:numpy.inf, :]      # infinity at one end means under/overflow
 \end{minted}
 \begin{verbatim}
-array([[999., 999., 999., 999., 999.],
-       [  1.,   1.,   1.,   1.,   1.],
-       [  1.,   1.,   1.,   1.,   1.],
-       [  1.,   1.,   1.,   1.,   1.],
-       [  1.,   1.,   1.,   1.,   1.],
-       [  1.,   1.,   1.,   1.,   1.],
-       [999., 999., 999., 999., 999.]])
+array([[999, 999, 999, 999, 999], 
+       [  1,   1,   1,   1,   1], 
+       [  1,   1,   1,   1,   1], 
+       [  1,   1,   1,   1,   1], 
+       [  1,   1,   1,   1,   1], 
+       [  1,   1,   1,   1,   1], 
+       [999, 999, 999, 999, 999]])
 \end{verbatim}
 \end{onlyenv}
 \begin{onlyenv}<3>
@@ -486,7 +486,7 @@ array([[999., 999., 999., 999., 999.],
 >>> allcounts = numpy.ones((7, 7))
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
 
->>> h2 = aghast.Histogram(
+>>> h = aghast.Histogram(
 ...     [aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
 ...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.above1,
 ...                                      loc_overflow=aghast.RealOverflow.above2))),
@@ -496,19 +496,167 @@ array([[999., 999., 999., 999., 999.],
 ...     aghast.UnweightedCounts(
 ...         aghast.InterpretedInlineBuffer.fromarray(allcounts)))
 
->>> h2.counts[-numpy.inf:numpy.inf, -numpy.inf:]
+>>> h.counts[-numpy.inf:numpy.inf, -numpy.inf:]
 \end{minted}
 \begin{verbatim}
-array([[999., 999., 999., 999., 999., 999.],
-       [999.,   1.,   1.,   1.,   1.,   1.],
-       [999.,   1.,   1.,   1.,   1.,   1.],
-       [999.,   1.,   1.,   1.,   1.,   1.],
-       [999.,   1.,   1.,   1.,   1.,   1.],
-       [999.,   1.,   1.,   1.,   1.,   1.],
-       [999., 999., 999., 999., 999., 999.]])
+array([[999, 999, 999, 999, 999, 999], 
+       [999,   1,   1,   1,   1,   1], 
+       [999,   1,   1,   1,   1,   1], 
+       [999,   1,   1,   1,   1,   1], 
+       [999,   1,   1,   1,   1,   1], 
+       [999,   1,   1,   1,   1,   1], 
+       [999, 999, 999, 999, 999, 999]])
 \end{verbatim}
 \end{onlyenv}
 \end{frame}
+
+\begin{frame}[fragile]{Pandas-like loc/iloc slicing}
+\scriptsize
+\vspace{0.4 cm}
+\begin{onlyenv}<1>
+\begin{minted}{python}
+>>> allcounts = numpy.ones((7, 7))
+>>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
+
+>>> h = aghast.Histogram(
+...     [aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
+...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.above1,
+...                                      loc_overflow=aghast.RealOverflow.above2))),
+...      aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
+...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.below2,
+...                                      loc_overflow=aghast.RealOverflow.below1)))],
+...     aghast.UnweightedCounts(
+...         aghast.InterpretedInlineBuffer.fromarray(allcounts)))
+
+>>> h.loc[0.0:, -5.0:4.5].counts[:, :]     # loc slices to make a new histogram
+\end{minted}
+\begin{verbatim}
+array([[1, 1, 1, 1, 1], 
+       [1, 1, 1, 1, 1], 
+       [1, 1, 1, 1, 1]])
+
+
+
+
+\end{verbatim}
+\end{onlyenv}
+\begin{onlyenv}<2>
+\begin{minted}{python}
+>>> allcounts = numpy.ones((7, 7))
+>>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
+
+>>> h = aghast.Histogram(
+...     [aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
+...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.above1,
+...                                      loc_overflow=aghast.RealOverflow.above2))),
+...      aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
+...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.below2,
+...                                      loc_overflow=aghast.RealOverflow.below1)))],
+...     aghast.UnweightedCounts(
+...         aghast.InterpretedInlineBuffer.fromarray(allcounts)))
+
+>>> h.iloc[2:, 0:5].counts[:, :]           # iloc slices with index coordinates
+\end{minted}
+\begin{verbatim}
+array([[1, 1, 1, 1, 1], 
+       [1, 1, 1, 1, 1], 
+       [1, 1, 1, 1, 1]])
+
+
+
+
+\end{verbatim}
+\end{onlyenv}
+\begin{onlyenv}<3>
+\begin{minted}{python}
+>>> allcounts = numpy.ones((7, 7))
+>>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
+
+>>> h = aghast.Histogram(
+...     [aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
+...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.above1,
+...                                      loc_overflow=aghast.RealOverflow.above2))),
+...      aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
+...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.below2,
+...                                      loc_overflow=aghast.RealOverflow.below1)))],
+...     aghast.UnweightedCounts(
+...         aghast.InterpretedInlineBuffer.fromarray(allcounts)))
+
+>>> h.iloc[::2, ::2].counts[:, :]          # ::2 rebins by a factor of 2
+\end{minted}
+\begin{verbatim}
+array([[4, 4], 
+       [4, 4]])
+
+
+
+
+
+\end{verbatim}
+\end{onlyenv}
+\begin{onlyenv}<4>
+\begin{minted}{python}
+>>> allcounts = numpy.ones((7, 7))
+>>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
+
+>>> h = aghast.Histogram(
+...     [aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
+...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.above1,
+...                                      loc_overflow=aghast.RealOverflow.above2))),
+...      aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
+...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.below2,
+...                                      loc_overflow=aghast.RealOverflow.below1)))],
+...     aghast.UnweightedCounts(
+...         aghast.InterpretedInlineBuffer.fromarray(allcounts)))
+
+>>> h.loc[0.0:, None].counts[:]            # None projects (sums over) a dimension
+\end{minted}
+\begin{verbatim}
+array([2003, 2003, 2003])
+
+
+
+
+
+
+\end{verbatim}
+\end{onlyenv}
+\begin{onlyenv}<5>
+\begin{minted}{python}
+>>> allcounts = numpy.ones((7, 7))
+>>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
+
+>>> h = aghast.Histogram(
+...     [aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
+...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.above1,
+...                                      loc_overflow=aghast.RealOverflow.above2))),
+...      aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
+...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.below2,
+...                                      loc_overflow=aghast.RealOverflow.below1)))],
+...     aghast.UnweightedCounts(
+...         aghast.InterpretedInlineBuffer.fromarray(allcounts)))
+
+>>> h.iloc[[True, False, True, False, True], None].axis[0].binning.dump()
+\end{minted}
+\begin{verbatim}
+IrregularBinning(
+  intervals=[
+    RealInterval(low=-5.0, high=-3.0),
+    RealInterval(low=-1.0, high=1.0),
+    RealInterval(low=3.0, high=5.0)
+  ],
+  overflow=RealOverflow(loc_underflow=BinLocation.above1, loc_overflow=BinLocation.above2))
+\end{verbatim}
+\end{onlyenv}
+
+
+
+
+
+
+\end{frame}
+
+
 
 
 \end{document}
