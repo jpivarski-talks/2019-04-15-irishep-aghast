@@ -310,7 +310,88 @@ Histogram(
 \end{verbatim}
 \end{frame}
 
+%% >>> tmessage = ROOT.TMessage()
+%% >>> tmessage.WriteObject(h_root)
+%% >>> tmessage.Length()
+%% 642
+%% >>> len(aghast.from_root(h_root).tobuffer())
+%% 544
 
+\begin{frame}{Common way of describing features in all histogram libraries}
+\vspace{0.25 cm}
+\scriptsize
+\begin{columns}[t]
+\column{0.33\linewidth}
+\begin{itemize}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#collection}{\textcolor{blue}{Collection}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#histogram}{\textcolor{blue}{Histogram}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#axis}{\textcolor{blue}{Axis}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#integerbinning}{\textcolor{blue}{IntegerBinning}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#regularbinning}{\textcolor{blue}{RegularBinning}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#realinterval}{\textcolor{blue}{RealInterval}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#realoverflow}{\textcolor{blue}{RealOverflow}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#hexagonalbinning}{\textcolor{blue}{HexagonalBinning}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#edgesbinning}{\textcolor{blue}{EdgesBinning}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#irregularbinning}{\textcolor{blue}{IrregularBinning}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#categorybinning}{\textcolor{blue}{CategoryBinning}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#sparseregularbinning}{\textcolor{blue}{SparseRegularBinning}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#fractionbinning}{\textcolor{blue}{FractionBinning}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#predicatebinning}{\textcolor{blue}{PredicateBinning}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#variationbinning}{\textcolor{blue}{VariationBinning}}
+\end{itemize}
+\column{0.33\linewidth}
+\begin{itemize}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#variation}{\textcolor{blue}{Variation}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#assignment}{\textcolor{blue}{Assignment}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#unweightedcounts}{\textcolor{blue}{UnweightedCounts}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#weightedcounts}{\textcolor{blue}{WeightedCounts}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#interpretedinlinebuffer}{\textcolor{blue}{InterpretedInlineBuffer}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#interpretedinlineint64buffer}{\textcolor{blue}{InterpretedInlineInt64Buffer}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#interpretedinlinefloat64buffer}{\textcolor{blue}{InterpretedInlineFloat64Buffer}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#interpretedexternalbuffer}{\textcolor{blue}{InterpretedExternalBuffer}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#profile}{\textcolor{blue}{Profile}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#statistics}{\textcolor{blue}{Statistics}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#moments}{\textcolor{blue}{Moments}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#quantiles}{\textcolor{blue}{Quantiles}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#modes}{\textcolor{blue}{Modes}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#extremes}{\textcolor{blue}{Extremes}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#statisticfilter}{\textcolor{blue}{StatisticFilter}}
+\end{itemize}
+\column{0.33\linewidth}
+\begin{itemize}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#covariance}{\textcolor{blue}{Covariance}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#parameterizedfunction}{\textcolor{blue}{ParameterizedFunction}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#parameter}{\textcolor{blue}{Parameter}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#evaluatedfunction}{\textcolor{blue}{EvaluatedFunction}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#binnedevaluatedfunction}{\textcolor{blue}{BinnedEvaluatedFunction}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#ntuple}{\textcolor{blue}{Ntuple}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#column}{\textcolor{blue}{Column}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#ntupleinstance}{\textcolor{blue}{NtupleInstance}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#chunk}{\textcolor{blue}{Chunk}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#columnchunk}{\textcolor{blue}{ColumnChunk}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#page}{\textcolor{blue}{Page}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#rawinlinebuffer}{\textcolor{blue}{RawInlineBuffer}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#rawexternalbuffer}{\textcolor{blue}{RawExternalBuffer}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#metadata}{\textcolor{blue}{Metadata}}
+  \item \href{https://github.com/scikit-hep/aghast/blob/master/specification.adoc\#decoration}{\textcolor{blue}{Decoration}}
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Common way of describing features in all histogram libraries}
+\vspace{0.5 cm}
+\begin{itemize}
+\item Only one {\bf Histogram} type; it's n-dimensional and slicable like a Numpy array.
+\item Regular/irregular/string-labeled/sparse axis types are all {\bf Binnings} (and they become an index or multi-index in Pandas).
+\item Efficiency plots are plots that have a {\bf FractionBinning} in some axis.
+\item {\bf Collections} of plots representing the same observables with different cuts share a {\bf PredicateBinning}.
+\item {\bf Collections} of plots representing different systematic variations share a {\bf VariationBinning}.
+\item An {\bf Axis} may also have {\bf Moments} and {\bf Correlations}.
+\item {\bf Profile} plots are those that have binned {\bf Moments}. Many {\bf Profiles} can share the same binning (and they become columns in Pandas).
+\item {\bf Functions} may be attached to {\bf Histograms} or may be unattached in {\bf Collections}.
+\item {\bf Collections} may also contain simple {\bf Ntuples} for unbinned fitting.
+\end{itemize}
+\end{frame}
 
 
 \end{document}
