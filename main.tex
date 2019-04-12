@@ -145,7 +145,7 @@ Moreover, these libraries are specializing:
 \end{itemize}
 
 \vspace{0.25 cm}
-The {\bf hist} package will wrap that up behind a single ``\mintinline{python}{import hist}'' command, but to do so, we need to get histogram objects between them.
+The {\bf hist} package will wrap that up behind a single ``\mintinline{python}{import hist}'' command, but to do so, we need to get histogram objects from one library to another.
 \end{frame}
 
 \begin{frame}{Aghast}
@@ -162,12 +162,13 @@ The {\bf aghast} library ({\bf ag}gregated, {\bf h}istogram-like {\bf st}atistic
 \begin{description}\setlength{\itemsep}{0.5 cm}
 \item[in-memory:] The purpose is to move histogram-like data from one library to another, invisibly as part of a function call. It is not primarily intended for long-term storage in files. In this respect, it is like Apache Arrow.
 
-\item[serializable:] We use Flatbuffers as a wire protocol to move data over a network or among languages (12 supported), if necessary. Flatbuffers supports partial deserialization, like HDF5 or ROOT.
+\item[serializable:]<2-> We use Flatbuffers as a wire protocol to move data over a network or among languages (12 supported), if necessary. Flatbuffers supports partial reading/deserialization (used in network games; must be fast).
 
-\item[ontology:] Aghast focuses exclusively on representing the data and converting histograms into histograms. It does not fill or plot them. In this respect, it is like Predictive Model Markup Language (PMML), which neither trains nor scores machine learning models.
+\item[ontology:]<3-> Aghast focuses exclusively on representing the data and converting histograms into histograms. It does not fill or plot them. In this respect, it is like Predictive Model Markup Language (PMML), which neither trains nor scores machine learning models.
 \end{description}
-
 \end{frame}
+
+
 
 
 
