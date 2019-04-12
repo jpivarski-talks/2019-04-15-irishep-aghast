@@ -166,13 +166,13 @@ The {\bf aghast} library ({\bf ag}gregated, {\bf h}istogram-like {\bf st}atistic
 \begin{description}\setlength{\itemsep}{0.5 cm}
 \item[in-memory:] The purpose is to move histogram-like data from one library to another, invisibly as part of a function call. It is not primarily intended for long-term storage in files. In this respect, it is like Apache Arrow.
 
-\item[serializable:]<2-> We use Flatbuffers as a wire protocol to move data over a network or among languages (12 supported), if necessary. Flatbuffers supports partial reading/deserialization (used in network games; must be fast).
+\item[serializable:]<2-> We use Flatbuffers as a wire protocol to move data over a network or among languages, if necessary. Flatbuffers supports partial reading/ deserialization (intended for network games; must be fast).
 
 \item[ontology:]<3-> Aghast focuses exclusively on representing the data and converting histograms into histograms. It does not fill or plot them. In this respect, it is like Predictive Model Markup Language (PMML), which neither trains nor scores machine learning models.
 \end{description}
 \end{frame}
 
-\begin{frame}{Another reason for it}
+\begin{frame}{Another motivation for the project}
 \vspace{0.5 cm}
 \large
 In IRIS-HEP Analysis Systems, we're developing a \textcolor{darkorange}{\bf Query Service} to keep large datasets inside a system while being responsive to user requests from outside.
@@ -209,7 +209,7 @@ Histogram(
 \end{verbatim}
 
 \vspace{0.25 cm}
-\uncover<2->{\textcolor{darkblue}{\large Very formal class hierarchy, long names $\to$ not for end-users!}}
+\uncover<2->{\textcolor{darkblue}{\large Formal class structure, long names $\to$ not for end-users!}}
 \end{frame}
 
 \begin{frame}[fragile]{What does it look like?}
@@ -428,7 +428,7 @@ Histogram(
 \begin{frame}{Common way of describing features in all histogram libraries}
 \vspace{0.5 cm}
 \begin{itemize}
-\item Only one {\bf Histogram} type; it's n-dimensional and slicable like a Numpy array.
+\item Only one {\bf Histogram} type; it's $n$-dimensional and slicable like a Numpy array.
 \item Regular/irregular/string-labeled/sparse axis types are all {\bf Binnings} (and they become an index or multi-index in Pandas).
 \item Efficiency plots are plots that have a {\bf FractionBinning} in some axis.
 \item {\bf Collections} of plots representing the same observables with different cuts share a {\bf PredicateBinning}.
@@ -672,7 +672,27 @@ IrregularBinning(
 
 \end{frame}
 
+\begin{frame}{Summary}
+\large
+\vspace{0.4 cm}
+\begin{itemize}\setlength{\itemsep}{0.3 cm}
+\item Instead of writing $\frac{N(N - 1)}{2}$ converters among $N$ histogramming libraries, create one \textcolor{darkorange}{\bf ontology} and convert the $N$ libraries into and out of it.
 
+\item Allows Python histogramming libraries to specialize: a user can access all features without one library implementing all features.
 
+\item Provides a ``reduced output'' format for a \textcolor{darkorange}{\bf Query Service} without tying it to a particular histogramming library.
+
+\item All histograms are $n$-dimensional and sliced/projected/rebinned like Numpy.
+
+\item Choice of \textcolor{darkorange}{\bf Flatbuffers}:
+
+\vspace{0.25 cm}
+\begin{itemize}\setlength{\itemsep}{0.25 cm}
+\item {\large Minimal wire protocol, can be selectively deserialized.}
+\item {\large Schema evolution: we can add classes as needed.}
+\item {\large Multilingual: supports 12 languages, but primarily C++.}
+\end{itemize}
+\end{itemize}
+\end{frame}
 
 \end{document}
