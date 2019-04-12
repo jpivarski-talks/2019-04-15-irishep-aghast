@@ -32,10 +32,10 @@
 \definecolor{darkgreen}{rgb}{0,0.6,0}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
-\title[yyyy-mm-dd-DESCRIPTION]{TITLE}
+\title[2019-04-15-irishep-aghast]{Aghast: communication among histogram implementations}
 \author{Jim Pivarski}
 \institute{Princeton University -- DIANA-HEP}
-\date{MONTH DAY, YEAR}
+\date{April 15, 2019}
 
 \usetikzlibrary{shapes.callouts}
 
@@ -56,9 +56,108 @@
 
 % START START START START START START START START START START START START START
 
-\begin{frame}{First slide}
-\vspace{0.5 cm}
-HERE
+\begin{frame}{Context: slide from last summer (8 table rows commented out!)}
+\scriptsize
+\vspace{0.35 cm}
+\begin{columns}
+\column{1.1\linewidth}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{c l c p{2.7 cm} p{1.5 cm} p{4.75 cm}}
+pip? & name & last release & interface style & depends on & integrates with \\\hline
+& \href{https://root.cern.ch/pyroot}{\textcolor{blue}{PyROOT}} & 2018 & HEP & ROOT & numpy \\
+& \href{https://yoda.hepforge.org/pydoc}{\textcolor{blue}{YODA}} & 2018 & HEP & {\it compiled} & matplotlib, yaml \\
+$\surd$ & \href{https://pypi.python.org/pypi/physt}{\textcolor{blue}{physt}} & 2018 & HEP + data science & numpy & pandas, xarray, dask, protobuf, matplotlib, vega (plotting), folium (maps) \\
+$\surd$ & \href{https://pypi.org/project/fast-histogram}{\textcolor{blue}{fast-histogram}} & 2018 & simple (astronomy) & numpy & \\
+$\surd$ & \href{https://pypi.org/project/qhist/}{\textcolor{blue}{qhist}} & 2018 & HEP & ROOT & \\
+$\surd$ & \href{https://pypi.org/project/rootpy}{\textcolor{blue}{rootpy}} & 2017 & HEP & ROOT & pytables, matplotlib, stats \\
+$\surd$ & \href{https://vaex.io}{\textcolor{blue}{Vaex}} (vaex.io) & 2017 & all-in-one GUI for big data, fast heatmaps & {\it many!} & Jupyter, matplotlib, HDF5, pandas, C++ \\
+$\surd$ & \href{https://pypi.python.org/pypi/hdrhistogram}{\textcolor{blue}{hdrhistogram}} & 2017 & ``high dynamic range'' & {\it compiled} & Java, C++ \\
+$\surd$ & \href{https://pypi.python.org/pypi/multihist}{\textcolor{blue}{multihist}} & 2017 & numpy wrapper & numpy & matplotlib \\
+$\surd$ & \href{https://github.com/ibab/matplotlib-hep}{\textcolor{blue}{matplotlib-hep}} & 2016 & HEP & matplotlib & numpy, scipy \\
+$\surd$ & \href{https://pypi.python.org/pypi/pyhistogram}{\textcolor{blue}{pyhistogram}} & 2014 & HEP & numpy & matplotlib, datetime \\
+$\surd$ & \href{https://pypi.python.org/pypi/histogram}{\textcolor{blue}{histogram}} & 2011 & HEP & numpy & matplotlib, HDF5 \\
+$\surd$ & \href{https://pypi.python.org/pypi/SimpleHist}{\textcolor{blue}{SimpleHist}} & 2011 & HEP & numpy, matplotlib & ROOT \\
+$\surd$ & \href{https://pypi.org/project/paida}{\textcolor{blue}{paida}} & 2007 & HEP & & AIDA! \\
+& \href{https://github.com/theodoregoetz/histogram}{\textcolor{blue}{theodoregoetz}} & never & HEP & scipy, \mbox{uncertainties} & numpy, matplotlib \\
+% $\surd$ & \href{https://pypi.python.org/pypi/histogramy}{\textcolor{blue}{histogramy}} & 2013 & Numpy, Matplotlib, Scikit-Learn & & \\
+% $\surd$ & \href{https://pypi.python.org/pypi/pypeaks}{\textcolor{blue}{pypeaks}} & 2014 & & & \\
+% $\surd$ & \href{https://pypi.python.org/pypi/hierogram}{\textcolor{blue}{hierogram}} & 2014 & & & \\
+% $\surd$ & \href{https://pypi.python.org/pypi/histo}{\textcolor{blue}{histo}} & & & & \\
+% $\surd$ & \href{https://pypi.python.org/pypi/python-metrics}{\textcolor{blue}{python-metrics}} & & & & \\
+% $\surd$ & \href{https://pypi.python.org/pypi/statscounter}{\textcolor{blue}{statscounter}} & 2016 & & & \\
+% $\surd$ & \href{https://pypi.python.org/pypi/datagram}{\textcolor{blue}{datagram}} & & & & \\
+% & \href{http://www.ifh.de/~middell/dashi/index.html}{\textcolor{blue}{dashi}} & & & & \\
+\end{tabular}
+\end{columns}
 \end{frame}
+
+\begin{frame}{Even more\ldots}
+
+{\large Over the years, I've written five:}
+
+\scriptsize
+\vspace{0.25 cm}
+\begin{columns}
+\column{1.1\linewidth}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{c l c p{2.7 cm} p{1.5 cm} p{4.75 cm}}
+pip? & name & last release & interface style & depends on & integrates with \\\hline
+& \href{http://code.google.com/p/plothon}{\textcolor{blue}{Plothon}} & 2006 & HEP & ROOT & SVG \\
+& \href{http://code.google.com/p/svgfig}{\textcolor{blue}{SVGFig}} & 2008 & HEP & {\it nothing!} & SVG \\
+& \href{https://github.com/opendatagroup/cassius}{\textcolor{blue}{Cassius}} & 2013 & HEP + data science & numpy & SVG, Augustus (Open Data Group) \\
+$\surd$ & \href{https://github.com/histogrammar}{\textcolor{blue}{Histogrammar}} & 2016 & combinational library & numpy & Spark, Julia, CUDA, \mbox{ROOT (Cling),} matplotlib, Bokeh, Vega \\
+$\surd$ & \href{https://github.com/scikit-hep/histbook}{\textcolor{blue}{histbook}} & 2018 & HEP & numpy & Spark, Pandas, Vega \\
+\end{tabular}
+\end{columns}
+
+\vspace{1 cm}
+{\large And today, you've heard about three more:}
+
+\begin{columns}
+\column{1.1\linewidth}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{c l c p{2.7 cm} p{1.5 cm} p{4.75 cm}}
+pip? & name & last release & interface style & depends on & integrates with \\\hline
+$\surd$ & \href{https://gitter.im/HSF/mpl-hep}{\textcolor{blue}{mpl-hep}} & 2019 & HEP & Matplotlib & numpy, pandas \\
+$\surd$ & \href{https://github.com/boostorg/histogram}{\textcolor{blue}{boost-histogram}} & 2019 & HEP & {\it compiled} & C++, numpy \\
+$\surd$ & \href{https://pypi.org/project/hist/}{\textcolor{blue}{hist}} & 2019 & HEP & the above & \\
+\end{tabular}
+\end{columns}
+\end{frame}
+
+\begin{frame}{}
+\vspace{1 cm}
+\Large
+\begin{center}
+We're not lacking for options, but perhaps for unity.
+\end{center}
+\end{frame}
+
+\begin{frame}{Tying it all together}
+\large
+\vspace{0.5 cm}
+Moreover, these libraries are specializing:
+
+\vspace{0.25 cm}
+\begin{itemize}
+\item {\bf boost-histogram} provides fast and flexible {\it filling},
+\item {\bf mpl-hep} provides many {\it plotting} options.
+\end{itemize}
+
+\vspace{0.25 cm}
+The {\bf hist} package will wrap that up behind a single ``\mintinline{python}{import hist}'' command, but to do so, we need to get histogram objects between them.
+\end{frame}
+
+\begin{frame}{Aghast}
+\large
+\vspace{0.5 cm}
+The {\bf aghast} library ({\bf ag}gregated, {\bf h}istogram-like {\bf st}atistics) is an {\it in-memory, serializable ontology} of histogram-like objects.
+
+\vspace{0.75 cm}
+\includegraphics[width=\linewidth]{aghast-github.png}
+\end{frame}
+
+
+
 
 \end{document}
