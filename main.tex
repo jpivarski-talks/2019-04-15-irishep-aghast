@@ -168,6 +168,18 @@ The {\bf aghast} library ({\bf ag}gregated, {\bf h}istogram-like {\bf st}atistic
 \end{description}
 \end{frame}
 
+\begin{frame}{Another reason for it}
+\vspace{0.5 cm}
+\large
+In IRIS-HEP Analysis Systems, we're developing a \textcolor{darkorange}{\bf Query Service} to keep large datasets inside a system while being responsive to user requests from outside.
+
+\begin{center}
+\includegraphics[width=0.6\linewidth]{basic-block-diagram.pdf}
+\end{center}
+
+The ``reduced output'' needs to be in some form that can be transmitted, added, and converted into any format. Such an object is known as ``\textcolor{darkorange}{\bf a ghast}.''
+\end{frame}
+
 \begin{frame}[fragile]{What does it look like?}
 \small
 \begin{minted}{python}
@@ -456,7 +468,7 @@ array([[1, 1, 1, 1, 1],
 \end{onlyenv}
 \begin{onlyenv}<2>
 \begin{minted}{python}
->>> allcounts = numpy.ones((7, 7))
+>>> allcounts = numpy.ones((7, 7), int)
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
 
 >>> h = aghast.Histogram(
@@ -483,7 +495,7 @@ array([[999, 999, 999, 999, 999],
 \end{onlyenv}
 \begin{onlyenv}<3>
 \begin{minted}{python}
->>> allcounts = numpy.ones((7, 7))
+>>> allcounts = numpy.ones((7, 7), int)
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
 
 >>> h = aghast.Histogram(
@@ -515,7 +527,7 @@ array([[999, 999, 999, 999, 999, 999],
 \vspace{0.4 cm}
 \begin{onlyenv}<1>
 \begin{minted}{python}
->>> allcounts = numpy.ones((7, 7))
+>>> allcounts = numpy.ones((7, 7), int)
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
 
 >>> h = aghast.Histogram(
@@ -542,7 +554,7 @@ array([[1, 1, 1, 1, 1],
 \end{onlyenv}
 \begin{onlyenv}<2>
 \begin{minted}{python}
->>> allcounts = numpy.ones((7, 7))
+>>> allcounts = numpy.ones((7, 7), int)
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
 
 >>> h = aghast.Histogram(
@@ -569,7 +581,7 @@ array([[1, 1, 1, 1, 1],
 \end{onlyenv}
 \begin{onlyenv}<3>
 \begin{minted}{python}
->>> allcounts = numpy.ones((7, 7))
+>>> allcounts = numpy.ones((7, 7), int)
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
 
 >>> h = aghast.Histogram(
@@ -596,7 +608,7 @@ array([[4, 4],
 \end{onlyenv}
 \begin{onlyenv}<4>
 \begin{minted}{python}
->>> allcounts = numpy.ones((7, 7))
+>>> allcounts = numpy.ones((7, 7), int)
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
 
 >>> h = aghast.Histogram(
@@ -623,7 +635,7 @@ array([2003, 2003, 2003])
 \end{onlyenv}
 \begin{onlyenv}<5>
 \begin{minted}{python}
->>> allcounts = numpy.ones((7, 7))
+>>> allcounts = numpy.ones((7, 7), int)
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
 
 >>> h = aghast.Histogram(
@@ -635,7 +647,7 @@ array([2003, 2003, 2003])
 ...                                      loc_overflow=aghast.RealOverflow.below1)))],
 ...     aghast.UnweightedCounts(
 ...         aghast.InterpretedInlineBuffer.fromarray(allcounts)))
-
+# Numpy advanced indexing can change the binning type (this one leaves gaps)
 >>> h.iloc[[True, False, True, False, True], None].axis[0].binning.dump()
 \end{minted}
 \begin{verbatim}
