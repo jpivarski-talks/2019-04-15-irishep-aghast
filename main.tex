@@ -186,14 +186,25 @@ The ``reduced output'' needs to be in some form that can be transmitted, added, 
 
 \begin{frame}[fragile]{What does it look like?}
 \small
+\begin{onlyenv}<1>
+\begin{minted}[stripnl=false]{python}
+>>> import numpy, aghast
+>>> h_numpy = numpy.histogram(numpy.random.normal(0, 1, 100000),
+...                           bins=20, range=(-5, 5))
+
+\end{minted}
+\end{onlyenv}
+\begin{onlyenv}<2->
 \begin{minted}{python}
 >>> import numpy, aghast
 >>> h_numpy = numpy.histogram(numpy.random.normal(0, 1, 100000),
 ...                           bins=20, range=(-5, 5))
 >>> aghast.from_numpy(h_numpy).dump()
 \end{minted}
+\end{onlyenv}
 
 \scriptsize
+\begin{uncoverenv}<2->
 \begin{verbatim}
 Histogram(
   axis=[
@@ -207,9 +218,10 @@ Histogram(
               [    2     5    21   107   477  1696  4378  9146 15084 19273 18933 14960
                 9216  4425  1648   480   122    23     4     0])))
 \end{verbatim}
+\end{uncoverenv}
 
 \vspace{0.25 cm}
-\uncover<2->{\textcolor{darkblue}{\large Formal class structure, long names $\to$ not for end-users!}}
+\uncover<3->{\textcolor{darkblue}{\large Formal class structure, long names $\to$ not for end-users!}}
 \end{frame}
 
 \begin{frame}[fragile]{What does it look like?}
