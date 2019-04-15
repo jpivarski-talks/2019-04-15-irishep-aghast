@@ -166,7 +166,7 @@ The {\bf aghast} library ({\bf ag}gregated, {\bf h}istogram-like {\bf st}atistic
 \begin{description}\setlength{\itemsep}{0.5 cm}
 \item[in-memory:] The purpose is to move histogram-like data from one library to another, invisibly as part of a function call. It is not primarily intended for long-term storage in files. In this respect, it is like Apache Arrow.
 
-\item[serializable:]<2-> We use Flatbuffers as a wire protocol to move data over a network or among languages, if necessary. Flatbuffers supports partial reading/ deserialization. (Flatbuffers is for network games; designed for speed.)
+\item[serializable:]<2-> We use Flatbuffers as a wire protocol to move data over a network or between languages, if necessary. Flatbuffers supports partial reading/ deserialization. (Flatbuffers is for network games; designed for speed.)
 
 \item[ontology:]<3-> Aghast focuses exclusively on representing the data and converting histograms into histograms. It does not fill or plot them. In this respect, it is like Predictive Model Markup Language (PMML), which neither trains nor scores machine learning models.
 \end{description}
@@ -204,7 +204,7 @@ The ``reduced output'' needs to be in some form that can be transmitted, added, 
 \end{onlyenv}
 
 \scriptsize
-\begin{uncoverenv}<2->
+\begin{uncoverenv}<3->
 \begin{verbatim}
 Histogram(
   axis=[
@@ -221,7 +221,7 @@ Histogram(
 \end{uncoverenv}
 
 \vspace{0.25 cm}
-\uncover<3->{\textcolor{darkblue}{\large Formal class structure, long names $\to$ not for end-users!}}
+\uncover<4->{\textcolor{darkblue}{\large Formal class structure, long names $\to$ not for end-users!}}
 \end{frame}
 
 \begin{frame}[fragile]{What does it look like?}
@@ -661,7 +661,30 @@ array([2003, 2003, 2003])
 
 \end{verbatim}
 \end{onlyenv}
-\begin{onlyenv}<5>
+\end{frame}
+
+\begin{frame}{}
+\vspace{1 cm}
+\large
+\begin{center}
+{\bf Note:} slicing, projecting, and rebinning are aspects of the same operation:
+
+\vspace{0.5 cm}
+\begin{minipage}{0.9\linewidth}
+\begin{itemize}
+\item {\tt \textcolor{darkorange}{[}slice-from\textcolor{darkorange}{:}slice-to\textcolor{darkorange}{:}rebin-by\textcolor{darkorange}{]}} (like Python/Numpy)
+\item {\tt \textcolor{darkorange}{[}..., None, ...\textcolor{darkorange}{]}} projection: sum over and remove dimension
+\item {\tt loc\textcolor{darkorange}{[}...\textcolor{darkorange}{]}} in x-axis coordinates
+\item {\tt iloc\textcolor{darkorange}{[}...\textcolor{darkorange}{]}} in integer indexes
+\end{itemize}
+\end{minipage}
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Numpy advanced indexing: slices that leave gaps}
+\scriptsize
+\vspace{0.4 cm}
+\begin{onlyenv}<1>
 \begin{minted}{python}
 >>> allcounts = numpy.ones((7, 7), int)
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
@@ -675,7 +698,7 @@ array([2003, 2003, 2003])
 ...                                      loc_overflow=aghast.RealOverflow.below1)))],
 ...     aghast.UnweightedCounts(
 ...         aghast.InterpretedInlineBuffer.fromarray(allcounts)))
-# Numpy advanced indexing can change the binning type (this one leaves gaps)
+
 >>> h.iloc[[True, False, True, False, True], None].axis[0].binning.dump()
 \end{minted}
 \begin{verbatim}
