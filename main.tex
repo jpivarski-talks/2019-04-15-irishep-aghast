@@ -194,7 +194,15 @@ The ``\textcolor{darkorange}{\bf reduced output}'' needs to be in a form that ca
 
 \end{minted}
 \end{onlyenv}
-\begin{onlyenv}<2->
+\begin{onlyenv}<2>
+\begin{minted}{python}
+>>> import numpy, aghast
+>>> h_numpy = numpy.histogram(numpy.random.normal(0, 1, 100000),
+...                           bins=20, range=(-5, 5))
+>>> aghast.from_numpy(h_numpy)
+\end{minted}
+\end{onlyenv}
+\begin{onlyenv}<3->
 \begin{minted}{python}
 >>> import numpy, aghast
 >>> h_numpy = numpy.histogram(numpy.random.normal(0, 1, 100000),
@@ -221,7 +229,7 @@ Histogram(
 \end{uncoverenv}
 
 \vspace{0.25 cm}
-\uncover<4->{\textcolor{darkblue}{\large Formal class structure, long names $\to$ not for end-users!}}
+\uncover<4->{\textcolor{darkblue}{\large Long names needed to construct these objects $\to$ not for end-users!}}
 \end{frame}
 
 \begin{frame}[fragile]{What does it look like?}
@@ -233,7 +241,7 @@ Histogram(
 >>> aghast.from_root(h_root).dump()
 \end{minted}
 
-\uncover<2->{(The ROOT histogram has {\tt moments} to preserve unbinned mean and standard deviation.)}
+\uncover<2->{\textcolor{darkblue}{(The ROOT histogram has {\tt moments} to preserve unbinned mean and standard deviation.)}}
 
 \tiny
 \begin{verbatim}
@@ -272,7 +280,7 @@ Histogram(
 
 \begin{frame}[fragile]{What does it look like?}
 \small
-{\large ROOT $\to$ Aghast $\to$ Numpy:}
+\textcolor{darkblue}{\large ROOT $\to$ Aghast $\to$ Numpy:}
 \begin{minted}{python}
 >>> aghast.to_numpy(aghast.from_root(h_root))
 \end{minted}
@@ -289,13 +297,13 @@ Histogram(
          inf]))
 \end{verbatim}
 
-\uncover<2->{\large Even though Numpy doesn't have a concept of regularly spaced bins or overflow bins, we can shoehorn the ROOT histogram into this form.}
+\uncover<2->{\large \textcolor{darkblue}{Even though Numpy doesn't have a concept of regularly spaced bins or overflow bins, we can shoehorn the ROOT histogram into this form.}}
 \end{frame}
 
 \begin{frame}[fragile]{What does it look like?}
 \vspace{0.5 cm}
 \small
-{\large Numpy $\to$ Aghast $\to$ ROOT:}
+\textcolor{darkblue}{\large Numpy $\to$ Aghast $\to$ ROOT:}
 \begin{minted}{python}
 >>> aghast.to_root(aghast.from_numpy(h_numpy), "name").Draw()
 \end{minted}
@@ -307,7 +315,7 @@ Histogram(
 
 \begin{frame}[fragile]{What does it look like?}
 \vspace{0.25 cm}
-Add histograms with different structures:
+\textcolor{darkblue}{Merging histograms (``{\tt\small hadd}'') with different structures:}
 
 \small
 \begin{minted}{python}
@@ -341,7 +349,7 @@ Histogram(
 \begin{frame}[fragile]{What does it look like?}
 \vspace{0.25 cm}
 \small
-In Pandas, binnings become indexes and per-bin statistics (only one here) become columns.
+\textcolor{darkblue}{In Pandas, binnings become indexes and per-bin statistics (only one here) become columns.}
 \begin{minted}{python}
 >>> aghast.to_pandas(aghast.from_root(h_root))
 \end{minted}
@@ -381,7 +389,7 @@ In Pandas, binnings become indexes and per-bin statistics (only one here) become
 %% >>> len(aghast.from_root(h_root).tobuffer())
 %% 544
 
-\begin{frame}{Common way of describing features in all histogram libraries}
+\begin{frame}{Common way of describing features of all histogram libraries}
 \vspace{0.25 cm}
 \scriptsize
 \begin{columns}[t]
@@ -442,7 +450,7 @@ In Pandas, binnings become indexes and per-bin statistics (only one here) become
 \end{columns}
 \end{frame}
 
-\begin{frame}{Common way of describing features in all histogram libraries}
+\begin{frame}{Common way of describing features of all histogram libraries}
 \vspace{0.5 cm}
 \begin{itemize}
 \item Only one {\bf Histogram} type; it's $n$-dimensional and slicable like a Numpy array.
@@ -460,7 +468,7 @@ In Pandas, binnings become indexes and per-bin statistics (only one here) become
 \begin{frame}{}
 \LARGE
 \begin{center}
-\textcolor{darkblue}{Extracting bin values and \\ histogram-to-histogram transformations}
+\textcolor{darkblue}{Extracting bin values}
 \end{center}
 \end{frame}
 
@@ -468,6 +476,33 @@ In Pandas, binnings become indexes and per-bin statistics (only one here) become
 \scriptsize
 \vspace{0.4 cm}
 \begin{onlyenv}<1>
+\begin{minted}[stripnl=false]{python}
+>>> allcounts = numpy.ones((7, 7), int)
+>>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
+
+>>> h = aghast.Histogram(
+...     [aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
+...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.above1,
+...                                      loc_overflow=aghast.RealOverflow.above2))),
+...      aghast.Axis(aghast.RegularBinning(5, aghast.RealInterval(-5, 5),
+...                  aghast.RealOverflow(loc_underflow=aghast.RealOverflow.below2,
+...                                      loc_overflow=aghast.RealOverflow.below1)))],
+...     aghast.UnweightedCounts(
+...         aghast.InterpretedInlineBuffer.fromarray(allcounts)))
+
+
+\end{minted}
+\begin{verbatim}
+
+
+
+
+
+
+
+\end{verbatim}
+\end{onlyenv}
+\begin{onlyenv}<2>
 \begin{minted}{python}
 >>> allcounts = numpy.ones((7, 7), int)
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
@@ -494,7 +529,7 @@ array([[1, 1, 1, 1, 1],
 
 \end{verbatim}
 \end{onlyenv}
-\begin{onlyenv}<2>
+\begin{onlyenv}<3>
 \begin{minted}{python}
 >>> allcounts = numpy.ones((7, 7), int)
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
@@ -521,7 +556,7 @@ array([[999, 999, 999, 999, 999],
        [999, 999, 999, 999, 999]])
 \end{verbatim}
 \end{onlyenv}
-\begin{onlyenv}<3>
+\begin{onlyenv}<4>
 \begin{minted}{python}
 >>> allcounts = numpy.ones((7, 7), int)
 >>> allcounts[5, :] = allcounts[6, :] = allcounts[:, 0] = allcounts[:, 1] = 999
@@ -548,6 +583,13 @@ array([[999,   1,   1,   1],
 
 \end{verbatim}
 \end{onlyenv}
+\end{frame}
+
+\begin{frame}{}
+\LARGE
+\begin{center}
+\textcolor{darkblue}{Histogram-to-histogram transformations: \\ slicing, projecting, and rebinning}
+\end{center}
 \end{frame}
 
 \begin{frame}[fragile]{Pandas-like loc/iloc slicing}
